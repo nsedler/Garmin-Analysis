@@ -13,25 +13,20 @@ def df_to_plotly(df):
 
 df = pd.read_csv('data/activities_dashboard.csv')
 
-activities = ['running', 'cycling', 'star_climbing', ]
+activities = ['running', 'cycling', 'stair_climbing', 'indoor_rowing', 'elliptical']
 df['sport'] = df['sport'].apply(lambda x: x if x in activities else None)
-df_weekly_total_time = df.groupby('week').agg({
-    'total_time' : 'mean'
-}).reset_index()
-print(df_weekly_total_time)
-work_bar_distance_dif = px.histogram(df, x='work_day', y='total_time', histfunc='avg', color='sport')
 
-weight_loss_line_fig = px.line(df_weekly_total_time, x='week', y='total_time',)
+print(df['total_time'].info())
+
+work_bar_distance_dif = px.histogram(df, x='work_day', y='total_time', histfunc='sum', color='sport')
 
 time_map = go.Figure(data=go.Heatmap(df_to_plotly(df), colorscale=px.colors.sequential.Greens, ))
-
 
 app = JupyterDash(__name__)
 
 app.layout = html.Div([
     html.H1('Activity Fitness Dashboard (wip)'),
     dcc.Graph(figure=work_bar_distance_dif),
-    dcc.Graph(figure=weight_loss_line_fig),
     dcc.Graph(figure=time_map),
 ])
 
