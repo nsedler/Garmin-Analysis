@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 
 # Create a Tkinter window
-root = tk.Tk()
+root = tk.Tk()clo
 root.title("Heatmap Application")
 root.geometry("500x400")
 
